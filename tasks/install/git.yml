@@ -1,0 +1,6 @@
+---
+# 安裝Git
+- name: "安裝Git"
+  apt:
+    name: git
+    state: present

@@ -1,0 +1,2 @@
+[server]
+ci_cd_test ansible_host=127.0.0.1

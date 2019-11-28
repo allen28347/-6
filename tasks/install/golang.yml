@@ -1,0 +1,31 @@
+---
+# 安裝GVM
+- name: "移除舊版GVM"
+  file:
+    path: /root/.gvm
+    state: absent
+- name: "下載GVM安裝程式"
+  get_url:
+    url: https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer
+    dest: /tmp/gvm-installer
+    mode: "0755"
+- name: "執行GVM安裝程式"
+  command: /tmp/gvm-installer
+
+# 安裝編譯用相依套件
+- name: "安裝編譯用相依套件"
+  apt:
+    pkg:
+      - mercurial 
+      - make 
+      - binutils 
+      - bison 
+      - gcc 
+      - build-essential
+    state: present
+
+# 安裝Golang
+- name: "安裝Golang"
+  shell: "source /root/.gvm/scripts/gvm && gvm install go1.13.4 -B && gvm use go1.13.4"
+  args:
+    executable: /bin/bash

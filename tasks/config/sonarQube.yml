@@ -1,0 +1,26 @@
+---
+  - name: "置換SonarQube設定檔"
+    copy:
+      src: ./resources/sonar.properties
+      dest: /opt/sonarqube/conf/sonar.properties
+      follow: yes
+  - name: "置換Elasticsearch設定檔"
+    copy:
+      src: ./resources/jvm.options
+      dest: /opt/sonarqube/elasticsearch/config/jvm.options
+      follow: yes
+  - name: "設定Elasticsearch目錄權限"
+    file: 
+      path: /opt/sonarqube
+      recurse: yes
+      mode: 0777
+  - name: "將SonarQube設成服務"
+    copy:
+      src: ./resources/sonar.service
+      dest: /etc/systemd/system/sonar.service
+      follow: yes
+  - name: "啟用SonarQube服務"
+    command: "{{ item }}"
+    with_items: 
+      - systemctl enable sonar
+      - systemctl start sonar
