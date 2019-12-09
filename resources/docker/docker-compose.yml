@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   sonar: 
     image: 'sonarqube:lts'
@@ -7,10 +7,7 @@ services:
       - build-networks
     ports: 
       -  0.0.0.0:9000:9000
-    environment:
-      - sonar.jdbc.username
-      - sonar.jdbc.password
-      - sonar.jdbc.url
+    env_file: .env
     restart: always
   jenkins:
     image: 'jenkins/jenkins:lts'
