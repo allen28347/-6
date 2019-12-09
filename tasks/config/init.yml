@@ -1,0 +1,52 @@
+---
+  - name: "設定系統環境"
+    shell: "{{ item }}"
+    with_items:
+      - sysctl -w vm.max_map_count=262144
+      - sysctl -w fs.file-max=65536
+      - ulimit -n 65536
+      - ulimit -u 4096
+    args:
+      executable: /bin/bash
+  - name: "複製Docker-Compose.yml到遠端機器"
+    copy:
+      src: ./resources/docker/docker-compose.yml
+      dest: /opt/docker-compose.yml
+      owner: root
+      group: root
+      follow: yes
+      mode: "644"
+  - name: "複製Docker環境變數到遠端機器"
+    copy:
+      src: ./resources/docker/.env
+      dest: /opt/.env
+      owner: root
+      group: root
+      follow: yes
+      mode: "644"
+  - name: "新增存放Jenkins資料目錄"
+    file:
+      path: /opt/jenkins
+      state: directory
+      mode: "755"
+  - name: "複製存放Jenkins資料壓縮包"
+    copy: 
+      src: ./resources/jenkins.tar.gz
+      dest: /opt/jenkins.tar.gz
+  - name: "解壓存放Jenkins資料目錄"
+    unarchive:
+      src: /opt/jenkins.tar.gz
+      dest: /opt
+      remote_src: yes
+  - name: "設定Jenkins資料夾存取權限"
+    file:
+      path: /opt/jenkins
+      mode: "777"
+      owner: root
+      group: root
+      recurse: yes
+  - name: "運行Docker-Compose"
+    shell: "docker-compose -f /opt/docker-compose.yml up -d --build"
+    args:
+      executable: /bin/bash
+  

@@ -1,17 +1,8 @@
-# 設定安裝SonarQube所需資料庫環境
+---
 - hosts: ci_cd_test
   remote_user: petercheng
   become: yes
-  become_user: postgres
   tasks:
-    - name: "設定SonarQube所需資料庫環境"
-      include_tasks: tasks/config/postgres.yml
-
-# 設定SonarQube相關設定
-- hosts: ci_cd_test
-  remote_user: petercheng
-  become: yes
-  become_user: root
-  tasks:
-    - name: "設定SonarQube相關設定"
-      include_tasks: tasks/config/sonarQube.yml
+    # 初始化系統
+    - name: "設定系統參數"
+      include_tasks: tasks/config/init.yml

@@ -1,0 +1,29 @@
+version: '2'
+services:
+  sonar: 
+    image: 'sonarqube:lts'
+    container_name: 'sonar'
+    networks:
+      - build-networks
+    ports: 
+      -  0.0.0.0:9000:9000
+    environment:
+      - sonar.jdbc.username
+      - sonar.jdbc.password
+      - sonar.jdbc.url
+    restart: always
+  jenkins:
+    image: 'jenkins/jenkins:lts'
+    container_name: 'jenkins'
+    networks:
+      - build-networks
+    ports: 
+      - 0.0.0.0:8080:8080
+      - 0.0.0.0:50000:50000
+    volumes: 
+      - /opt/jenkins:/var/jenkins_home
+    restart: always
+networks: 
+  build-networks:
+    driver: bridge
+    

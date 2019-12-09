@@ -13,10 +13,10 @@
     - name: "安裝Golang 1.13.4"
       include_tasks: tasks/install/golang.yml
 
-    # 安裝PostgreSQL
-    - name: "安裝PostgreSQL"
-      include_tasks: tasks/install/postgres.yml
+    # 安裝Docker
+    - name: "安裝Docker"
+      include_tasks: tasks/install/docker.yml
 
-    # 安裝SonarQube
-    - name: "安裝SonarQube 7.9.1 LTS"
-      include_tasks: tasks/install/sonarQube.yml
+    # 安裝Docker-Compose
+    - name: "安裝Docker"
+      include_tasks: tasks/install/docker-compose.yml
